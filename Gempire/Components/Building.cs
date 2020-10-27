@@ -40,29 +40,4 @@ namespace Gempire.Components
         // buildings with adjacency bonuses
         // buildings with second row bonuses
     }
-
-    public enum Attribute
-    {
-        Gold,
-        Population,
-        Culture
-    }
-
-    public enum Direction
-    {
-        Left,
-        Right
-    }
-
-    public enum VariableType
-    {
-        GoldBuilding,
-        PopulationBuilding,
-        CultureBuilding,
-        PalaceLevel,
-        GoldGem,
-        PopulationGem,
-        CultureGem,
-        TechnologyCount
-    }
 }
