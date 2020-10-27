@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gempire.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,9 @@ namespace Gempire.Repositories
 {
     public class BuildingRepository
     {
+        public void CreateBuilding(Building building)
+        {
 
+        }
     }
 }

@@ -35,6 +35,9 @@ namespace Gempire.Components
         public int PalaceDiamonds { get; set; }
         public int ScienceSymbols { get; set; }
 
+        // How many of this building are in the deck?
+        public int Multiplicity { get; set; }
+
         // Need properties to enable the following buildings:
         // buildings that purely give science
         // buildings with adjacency bonuses
