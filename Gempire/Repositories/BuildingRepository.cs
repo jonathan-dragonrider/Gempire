@@ -40,5 +40,21 @@ namespace Gempire.Repositories
                 return buildings;
             }
         }
+
+        public Building GetBuildingByName(string name)
+        {
+            var buildings = GetBuildings();
+            foreach (var building in buildings)
+            {
+                if (building.Name == name)
+                {
+                    return building;
+                }
+            }
+
+            return null;
+        }
+
+
     }
 }
