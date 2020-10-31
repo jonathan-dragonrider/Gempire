@@ -55,6 +55,23 @@ namespace Gempire.Repositories
             return null;
         }
 
+        public bool EditBuilding(Building editedBuilding, string originalName)
+        {
+            // JSON LINQ - Find(originalName), replace with editedBuilding
+            using (var file = new StreamReader(_path))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                List<Building> buildings = new List<Building>();
+
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    Building deserializedBuilding = JsonConvert.DeserializeObject<Building>(line);
+                    buildings.Add(deserializedBuilding);
+                }
+
+            }
+        }
 
     }
 }
