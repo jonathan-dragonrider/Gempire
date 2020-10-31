@@ -1,11 +1,12 @@
 ﻿using Gempire.Components;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Gempire.Repositories
 {
@@ -27,7 +28,6 @@ namespace Gempire.Repositories
         {
             using (var file = new StreamReader(_path))
             {
-                JsonSerializer serializer = new JsonSerializer();
                 List<Building> buildings = new List<Building>();
 
                 string line;
@@ -57,20 +57,31 @@ namespace Gempire.Repositories
 
         public bool EditBuilding(Building editedBuilding, string originalName)
         {
-            // JSON LINQ - Find(originalName), replace with editedBuilding
-            using (var file = new StreamReader(_path))
+            // You cannot edit a single line without rewriting the entire file - https://stackoverflow.com/questions/1971008/edit-a-specific-line-of-a-text-file-in-c-sharp
+            // Convert file to string list of lines, use Json Linq to find line with original info, replace with edited info
+            string serializedEditedBuilding = JsonConvert.SerializeObject(editedBuilding);
+            List<string> lines = File.ReadLines(_path).ToList();
+            foreach (var line in lines)
             {
-                JsonSerializer serializer = new JsonSerializer();
-                List<Building> buildings = new List<Building>();
-
-                string line;
-                while ((line = file.ReadLine()) != null)
+                // Parse to JObject to use Linq, replace line
+                JObject jsonParse = JObject.Parse(line);
+                if ((string)jsonParse["name"] == originalName)
                 {
-                    Building deserializedBuilding = JsonConvert.DeserializeObject<Building>(line);
-                    buildings.Add(deserializedBuilding);
+                    lines[lines.IndexOf(line)] = serializedEditedBuilding;
                 }
-
             }
+
+            // Rewrite file
+            foreach (var line in lines)
+            {
+                using (var file = new StreamWriter(_path, true))
+                {
+                    file.WriteLine(line);
+                }
+            }
+
+            return true;
+
         }
 
     }
