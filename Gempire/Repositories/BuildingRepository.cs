@@ -81,7 +81,29 @@ namespace Gempire.Repositories
             }
 
             return true;
+        }
 
+        public bool DeleteBuilding(string name)
+        {
+            List<string> lines = File.ReadLines(_path).ToList();
+            foreach (var line in lines)
+            {
+                JObject jsonParse = JObject.Parse(line);
+                if ((string)jsonParse["name"] == name)
+                {
+                    lines.Remove(line);
+                }
+            }
+
+            foreach (var line in lines)
+            {
+                using (var file = new StreamWriter(_path, true))
+                {
+                    file.WriteLine(line);
+                }
+            }
+
+            return true;
         }
 
     }
